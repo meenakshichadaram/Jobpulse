@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JobPulse — Resilient Job Intelligence Engine</title>
+    <meta name="description" content="Production-style resilient job ingestion engine with real-time health monitoring, deduplication, and skill extraction.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Top Header Navigation -->
+        <header class="header">
+            <div class="brand">
+                <div class="logo-icon">⚡</div>
+                <div class="brand-text">
+                    <h1>JobPulse</h1>
+                    <span class="tagline">Resilient Job Intelligence Engine</span>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button id="ingestBtn" class="btn btn-secondary" onclick="triggerIngestion()">
+                    <span class="btn-icon">🔄</span> Ingest Now
+                </button>
+            </div>
+        </header>
+
+        <!-- Stats Overview Cards -->
+        <section class="stats-section" id="statsSection">
+            <div class="stat-card">
+                <span class="stat-label">Total Jobs Ingested</span>
+                <span class="stat-value" id="statTotalJobs">--</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Ingestion Source</span>
+                <span class="stat-value text-accent" id="statSource">Remotive API</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Source Status</span>
+                <div class="status-pill" id="statStatusPill">
+                    <span class="status-dot"></span>
+                    <span id="statStatusText">HEALTHY</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Last Ingestion</span>
+                <span class="stat-value stat-small" id="statLastFetch">Just now</span>
+            </div>
+        </section>
+
+        <!-- Search & Filter Controls -->
+        <section class="search-section">
+            <form id="searchForm" class="search-form" onsubmit="handleSearch(event)">
+                <div class="input-group">
+                    <span class="input-icon">🔍</span>
+                    <input type="text" id="keywordInput" placeholder="Title, skills, or keywords (e.g. Python, React)...">
+                </div>
+                <div class="input-group">
+                    <span class="input-icon">📍</span>
+                    <input type="text" id="locationInput" placeholder="Location (e.g. Remote, USA)...">
+                </div>
+                <button type="submit" class="btn btn-primary">Search Listings</button>
+            </form>
+        </section>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <div class="section-header">
+                <h2>Active Job Listings</h2>
+                <span class="result-count" id="resultCount">Showing 0 listings</span>
+            </div>
+
+            <!-- Loading Spinner -->
+            <div id="loadingSpinner" class="spinner-container hidden">
+                <div class="spinner"></div>
+                <p>Ingesting & retrieving job intelligence...</p>
+            </div>
+
+            <!-- Job Cards Grid -->
+            <div id="jobsGrid" class="jobs-grid">
+                <!-- Job cards rendered dynamically via JS -->
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="empty-state hidden">
+                <div class="empty-icon">📂</div>
+                <h3>No Job Listings Found</h3>
+                <p>Try refining your search terms or click "Ingest Now" to pull fresh job listings.</p>
+            </div>
+
+            <!-- Pagination -->
+            <div id="pagination" class="pagination hidden">
+                <button id="prevBtn" class="btn btn-sm" onclick="changePage(-1)">← Previous</button>
+                <span id="pageIndicator" class="page-indicator">Page 1 of 1</span>
+                <button id="nextBtn" class="btn btn-sm" onclick="changePage(1)">Next →</button>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>JobPulse Engine &bull; Built for AcdyOn AI Engineer Assignment &bull; Low-Risk Resilient Ingestion</p>
+        </footer>
+    </div>
+
+    <!-- Job Detail Modal -->
+    <div id="jobModal" class="modal-overlay hidden" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModalDirect()">&times;</button>
+            <div class="modal-header">
+                <span class="modal-company" id="modalCompany">Company</span>
+                <h2 class="modal-title" id="modalTitle">Job Title</h2>
+                <div class="modal-meta">
+                    <span id="modalLocation">📍 Remote</span> &bull;
+                    <span id="modalSource">Source: Remotive</span> &bull;
+                    <span id="modalDate">Published: --</span>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <h3>Extracted Technical Skills</h3>
+                <div id="modalSkills" class="skills-container">
+                    <!-- Skills badges -->
+                </div>
+
+                <h3>Job Description</h3>
+                <div id="modalDescription" class="job-description-text">
+                    <!-- Full description text -->
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <a id="modalApplyUrl" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-full">
+                    View & Apply on Original Site ↗
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
